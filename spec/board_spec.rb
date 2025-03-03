@@ -19,17 +19,32 @@ RSpec.describe 'board' do
     end
   end
 
-  describe '#add_guess' do
-    it 'adds a guess to the board' do
-      board.add_guess(guess)
-      expect(board.guesses).to eq([guess])
+  describe '#add_grade' do
+    it 'adds a grade to the board' do
+      board.add_grade(grade)
+      expect(board.grades).to include(grade)
     end
   end
 
-  describe '#add_grade' do
-    it 'adds a guess to the board' do
+  describe '#grade' do
+    before do
+      allow(board).to receive(:hidden_code).and_return([pin_1, pin_2, pin_3, pin_4])
+      @guess = [pin_1, pin_1, pin_1, pin_2]
+    end
+
+    it 'grades the guess' do
+      graded = board.grade(@guess)
+      expect(graded.map(&:color)).to include('green', 'white', 'white', 'white')
+    end
+  end
+
+  describe '#display' do
+    it 'displays the board' do
+      board.add_guess(guess)
       board.add_grade(grade)
-      expect(board.grades).to eq([grade])
+      expect do
+        board.display
+      end.to output.to_stdout
     end
   end
 end
