@@ -12,7 +12,12 @@ class Game
 
   def run
     puts 'Game Started'
+  end
 
+  def turn
+    puts 'Code breaker, make a guess'
+    guess = gets.chomp
+    @board.add_guess(guess)
   end
 
   private

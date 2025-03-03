@@ -2,7 +2,7 @@ require 'spec_helper'
 require_relative '../game'
 
 RSpec.describe 'Game' do
-  describe "#initialize" do
+  describe '#initialize' do
     code_maker = CodeMaker.new
     pin_1 = Pin.new('red')
     pin_2 = Pin.new('blue')
@@ -18,17 +18,17 @@ RSpec.describe 'Game' do
   context 'when the game is running' do
     game = Game.new
     describe '#run' do
-      xit 'starts the game' do
-        expect(game.run).to eq('Game is running')
+      it 'starts the game' do
+        expect { game.run }.to output("Game Started\n").to_stdout
       end
     end
 
     describe '#turn' do
-      xit 'prompts the code breaker to make a guess' do
-        expect(game.turn).to eq('Code breaker, make a guess')
-        expect(game.turn).to recieve(:gets).and_return('1234')
+      it 'adds the guess to the board' do
+        allow(game).to receive(:gets).and_return('1234')
+        game.turn
+        expect(game.board.guesses.last).to eq('1234')
       end
     end
   end
-
 end
