@@ -34,7 +34,7 @@ RSpec.describe 'board' do
 
     it 'grades the guess' do
       graded = board.grade(@guess)
-      expect(graded.map(&:color)).to include('green', 'white', 'white', 'white')
+      expect(graded.map(&:color)).to include('red', 'black', 'black', 'black')
     end
   end
 

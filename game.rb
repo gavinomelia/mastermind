@@ -12,19 +12,36 @@ class Game
 
   def run
     puts 'Game Started'
+    loop do
+      turn
+      if @board.won?
+        puts 'You won!'
+        break
+      elsif @board.lost?
+        puts 'You lost!'
+        break
+      end
+    end
+    puts 'Game Over'
   end
 
   def turn
     puts 'Code breaker, make a guess'
-    guess = gets.chomp
+    input = gets.chomp
+    guess = input.split(' ').map { |color| Pin.new(color) }
     @board.add_guess(guess)
+    grade = @board.grade(guess)
+    @board.add_grade(grade)
+    @board.display
   end
 
   private
 
   def initialize_board
-    board = Board.new(@code_maker.set_code) if code.empty?
-
-    board = Board.new(@code_maker.set_code(code))
+    if @code.empty?
+      Board.new(@code_maker.set_code)
+    else
+      Board.new(@code)
+    end
   end
 end
