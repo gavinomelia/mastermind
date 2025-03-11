@@ -21,6 +21,8 @@ class Game
         break
       elsif @board.lost?
         puts 'You lost!'
+        puts 'The hidden code was:'
+        show_hidden_code
         break
       end
     end
@@ -28,16 +30,38 @@ class Game
   end
 
   def turn
-    puts 'Code breaker, make a guess'
-    input = gets.chomp
-    guess = input.split(' ').map { |color| Pin.new(color) }
-    @board.add_guess(guess)
-    grade = @board.grade(guess).shuffle
-    @board.add_grade(grade)
-    @board.display
+    input = prompt_guess
+    guess = parse_guess(input)
+
+    if guess
+      @board.add_guess(guess)
+      grade = @board.grade(guess).shuffle
+      @board.add_grade(grade)
+      @board.display
+    else
+      puts 'Invalid guess. Please enter four colors separated by spaces.'
+    end
   end
 
   private
+
+  def prompt_guess
+    puts 'Code breaker, make a guess'
+    gets.chomp
+  end
+
+  def parse_guess(input)
+    guess = input.split(' ').map { |color| Pin.new(color) }
+    return nil unless guess.length == 4
+
+    guess.each do |pin|
+      unless %w[red blue green yellow purple orange].include?(pin.color)
+        puts 'Invalid color. Please choose from red, blue, green, yellow, purple, or orange.'
+        prompt_guess
+      end
+    end
+    guess
+  end
 
   def initialize_board
     if @code.empty?
