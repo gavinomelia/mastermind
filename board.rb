@@ -43,7 +43,6 @@ class Board
   end
 
   def display
-    display_hidden_code
     display_guesses_and_grades
   end
 
