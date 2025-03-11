@@ -22,11 +22,11 @@ class Board
 
   def grade(guess)
     grade = []
-    guess.each_with_index do |pin, index|
-      if pin.color == hidden_code[index].color
+    @hidden_code.each_with_index do |pin, index|
+      if pin.color == guess[index].color
         grade << Pin.new('red')
-      elsif hidden_code.any? { |hidden_pin| hidden_pin.color == pin.color }
-        grade << Pin.new('black')
+      elsif guess.any? { |guess_pin| guess_pin.color == pin.color }
+        grade << Pin.new('white')
       end
     end
     grade
@@ -35,7 +35,7 @@ class Board
   def won?
     return false if grades.empty?
 
-    @grades.last.all? { |pin| pin.color == 'red' }
+    @grades.last.all? { |pin| pin.color == 'red' } && @grades.last.length == 4
   end
 
   def lost?
@@ -57,12 +57,11 @@ class Board
 
   def display_guesses_and_grades
     puts "Grades: #{@grades}"
-    puts @guesses
     @guesses.each_with_index do |guess, index|
       puts "Guess #{index + 1}:"
       guess.each { |pin| print "#{pin.color} " }
       puts "\nGrade:"
-      @grades[index].each { |pin| print "#{pin.color} " }
+      @grades.last.each { |pin| print "#{pin.color} " }
       puts "\n-------------------"
     end
   end

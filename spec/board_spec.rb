@@ -7,11 +7,11 @@ RSpec.describe 'board' do
   pin_2 = Pin.new('blue')
   pin_3 = Pin.new('green')
   pin_4 = Pin.new('yellow')
-  grade_green = Pin.new('green')
+  grade_red = Pin.new('red')
   grade_white = Pin.new('white')
   board = Board.new([pin_1, pin_2, pin_3, pin_4])
   guess = [pin_2, pin_4, pin_3, pin_1]
-  grade = [grade_green, grade_white]
+  grade = [grade_red, grade_white, grade_white, grade_white]
 
   describe '#show_hidden_code' do
     it 'shows the hidden code' do
@@ -34,7 +34,7 @@ RSpec.describe 'board' do
 
     it 'grades the guess' do
       graded = board.grade(@guess)
-      expect(graded.map(&:color)).to include('red', 'black', 'black', 'black')
+      expect(graded.map(&:color)).to include('red', 'white', 'white', 'white')
     end
   end
 

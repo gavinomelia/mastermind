@@ -12,6 +12,8 @@ class Game
 
   def run
     puts 'Game Started'
+    puts 'Try to guess the code sequence of four colors. The color options are red, blue, green, yellow, purple, and orange.'
+    puts 'You have 12 turns to guess the code. Otherwise, you lose.'
     loop do
       turn
       if @board.won?
@@ -30,7 +32,7 @@ class Game
     input = gets.chomp
     guess = input.split(' ').map { |color| Pin.new(color) }
     @board.add_guess(guess)
-    grade = @board.grade(guess)
+    grade = @board.grade(guess).shuffle
     @board.add_grade(grade)
     @board.display
   end
