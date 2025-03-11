@@ -29,12 +29,34 @@ RSpec.describe 'board' do
   describe '#grade' do
     before do
       allow(board).to receive(:hidden_code).and_return([pin_1, pin_2, pin_3, pin_4])
-      @guess = [pin_1, pin_1, pin_1, pin_2]
     end
 
-    it 'grades the guess' do
-      graded = board.grade(@guess)
-      expect(graded.map(&:color)).to include('red', 'white', 'white', 'white')
+    it 'grades the guess with all correct colors and positions' do
+      guess = [pin_1, pin_2, pin_3, pin_4]
+      graded = board.grade(guess)
+      expect(graded.map(&:color)).to eq(%w[red red red red])
+    end
+
+    it 'grades the guess with some correct colors and positions' do
+      guess = [pin_1, pin_3, pin_2, pin_4]
+      graded = board.grade(guess)
+      expect(graded.map(&:color)).to eq(%w[red white white red])
+    end
+
+    it 'grades the guess with correct colors but wrong positions' do
+      guess = [pin_4, pin_3, pin_2, pin_1]
+      graded = board.grade(guess)
+      expect(graded.map(&:color)).to eq(%w[white white white white])
+    end
+
+    it 'grades the guess with no correct colors' do
+      pin_5 = Pin.new('purple')
+      pin_6 = Pin.new('orange')
+      pin_7 = Pin.new('pink')
+      pin_8 = Pin.new('brown')
+      guess = [pin_5, pin_6, pin_7, pin_8]
+      graded = board.grade(guess)
+      expect(graded).to be_empty
     end
   end
 
