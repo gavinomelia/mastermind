@@ -2,14 +2,14 @@ require 'spec_helper'
 require_relative '../game'
 
 RSpec.describe 'Game' do
+  board = Board.new
   describe '#initialize' do
-    code_maker = CodeMaker.new
     pin_1 = Pin.new('red')
     pin_2 = Pin.new('blue')
     pin_3 = Pin.new('green')
     pin_4 = Pin.new('yellow')
     code = [pin_1, pin_2, pin_3, pin_4]
-    game = Game.new(code_maker.set_code(code))
+    game = Game.new(board.set_code(code))
     it 'sets up the board' do
       expect(game.board.hidden_code).to eq(code)
     end

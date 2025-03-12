@@ -6,11 +6,15 @@ class Game
 
   def initialize(code = [])
     @code = code
-    @code_maker = CodeMaker.new
-    @board = initialize_board
+    @board = Board.new(code)
+    @code_maker = CodeMaker.new(self, @board)
   end
 
   def run
+    ask_role
+  end
+
+  def codebreaker
     introduction
     game_loop
     puts 'Game Over'
@@ -30,7 +34,19 @@ class Game
     end
   end
 
-  private
+  def ask_role
+    puts 'Are you the code maker or the code breaker?'
+    input = gets.chomp
+    if input.downcase == 'code maker'
+      codemaker
+    else
+      codebreaker
+    end
+  end
+
+  def codemaker
+    @code_maker.run
+  end
 
   def introduction
     puts 'Game Started'
@@ -70,13 +86,5 @@ class Game
     return nil unless guess.all? { |pin| valid_colors.include?(pin.color) }
 
     guess
-  end
-
-  def initialize_board
-    if @code.empty?
-      Board.new(@code_maker.set_code)
-    else
-      Board.new(@code)
-    end
   end
 end

@@ -26,6 +26,26 @@ RSpec.describe 'board' do
     end
   end
 
+  describe '#set_code' do
+    it 'can set the hidden code for the game' do
+      code = board.set_code
+      expect(code).to be_a(Array)
+      expect(code.length).to eq(4)
+      code.each do |pin|
+        expect(pin).to be_a(Pin)
+      end
+    end
+
+    it 'be manually set' do
+      pin_1 = Pin.new('red')
+      pin_2 = Pin.new('blue')
+      pin_3 = Pin.new('green')
+      pin_4 = Pin.new('yellow')
+      code = [pin_1, pin_2, pin_3, pin_4]
+      expect(board.set_code(code)).to eq(code)
+    end
+  end
+
   describe '#grade' do
     before do
       allow(board).to receive(:hidden_code).and_return([pin_1, pin_2, pin_3, pin_4])

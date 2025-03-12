@@ -2,8 +2,8 @@ class Board
   attr_reader :hidden_code
   attr_accessor :guesses, :grades
 
-  def initialize(hidden_code)
-    @hidden_code = hidden_code
+  def initialize(hidden_code = [])
+    @hidden_code = set_code(hidden_code)
     @guesses = []
     @grades = []
   end
@@ -30,6 +30,15 @@ class Board
       end
     end
     grade
+  end
+
+  def set_code(code = [])
+    return code if code.length == 4
+
+    4.times do
+      code << Pin.new
+    end
+    code
   end
 
   def won?
