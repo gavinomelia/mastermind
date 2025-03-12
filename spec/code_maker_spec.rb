@@ -1,13 +1,12 @@
 require 'spec_helper'
-require_relative '../code_maker'
+require_relative '../code_maker_game'
 
-RSpec.describe 'CodeMaker' do
+RSpec.describe CodeMakerGame do
   describe '#initialize' do
-    it 'initializes with a game and board' do
-      game = double('game')
-      board = double('board')
-      code_maker = CodeMaker.new(game, board)
-      expect(code_maker).to be_a(CodeMaker)
+    it 'initializes as a Game subclass' do
+      code_maker = CodeMakerGame.new
+      expect(code_maker).to be_a(Game)
+      expect(code_maker).to be_a(CodeMakerGame)
     end
   end
 end

@@ -1,19 +1,14 @@
+require_relative 'game'
 require_relative 'pin'
 
-class CodeMaker
-  def initialize(game, board)
-    @game = game
-    @board = board
-  end
+class CodeMakerGame < Game
+  protected
 
-  def run
-    introduction
+  def introduction
+    puts 'Entering Code Maker Mode'
+    puts 'You will set the hidden code for the game and the computer will try to guess your code.'
     prompt_for_code
-    game_loop
-    puts 'Game over'
   end
-
-  private
 
   def game_loop
     loop do
@@ -24,9 +19,11 @@ class CodeMaker
       @board.add_grade(grade)
       @board.display
       sleep 2
-      exit if game_over?
+      break if game_over?
     end
   end
+
+  private
 
   def game_over?
     if @board.won?
@@ -41,15 +38,10 @@ class CodeMaker
     false
   end
 
-  def introduction
-    puts 'Entering Code Maker Mode'
-    puts 'You will set the hidden code for the game and the computer will try to guess your code.'
-  end
-
   def prompt_for_code
     puts 'Please enter your code (4 colors separated by spaces):'
     input = gets.chomp
-    code = @game.parse_guess(input)
+    code = parse_guess(input)
     @board.set_code(code)
     puts "The hidden code is set to #{code.map(&:color).join(' ')}"
   end

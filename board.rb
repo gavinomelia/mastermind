@@ -1,3 +1,5 @@
+require_relative 'pin'
+
 class Board
   attr_reader :hidden_code
   attr_accessor :guesses, :grades
@@ -64,7 +66,6 @@ class Board
   end
 
   def display_guesses_and_grades
-    puts "Grades: #{@grades}"
     @guesses.each_with_index do |guess, index|
       puts "Guess #{index + 1}:"
       guess.each { |pin| print "#{pin.color} " }
