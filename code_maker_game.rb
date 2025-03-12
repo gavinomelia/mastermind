@@ -12,11 +12,8 @@ class CodeMakerGame < Game
 
   def game_loop
     loop do
-      guess = 4.times.map { Pin.new }
-      @board.add_guess(guess)
-      puts "My guess is #{guess.map(&:color).join(' ')}"
-      grade = @board.grade(guess)
-      @board.add_grade(grade)
+      guess = make_guess
+      grade_guess(guess)
       @board.display
       sleep 2
       break if game_over?
@@ -24,6 +21,18 @@ class CodeMakerGame < Game
   end
 
   private
+
+  def make_guess
+    guess = 4.times.map { Pin.new }
+    @board.add_guess(guess)
+    puts "My guess is #{guess.map(&:color).join(' ')}"
+    guess
+  end
+
+  def grade_guess(guess)
+    grade = @board.grade(guess)
+    @board.add_grade(grade)
+  end
 
   def game_over?
     if @board.won?
